@@ -39,6 +39,59 @@ los mismos.
 
 # Construccion de modelos
 
+#Carga de datos
+def iniciarDatos():
+    catalog={'Artists': None, 'Artworks': None, 'Medium': None}
+
+    catalog['Artists']= lt.newList()
+    catalog['Artworks']= lt.newList()
+    catalog['Medium']=mp.newMap(1000, maptype='CHAINING', loadfactor=0.7)
+
+    return catalog
+
+def addArtist(catalog, artist):
+    lt.addLast(catalog['Artists'], artist)
+
+def addArtwork(catalog, artwork):
+    lt.addLast(catalog['Artworks'],artwork)
+    for tecnica in catalog['Artworks']['Medium']:
+        mp.put(catalog['Medium'],tecnica, artwork)
+
+def ordenar(o1,o2):
+    return o1['fecha']<o2['fecha']
+
+
+def orgObrasCro(catalog, medio):
+    obras =lt.newList()
+    for obra in lt.iterator(catalog['Artwoks']):
+        if medio == obra['Medium']:
+            informacion= lt.newList()
+            lt.addLast(informacion, obra['Title'])
+            lt.addLast(informacion, obra['Date'])
+            lt.addLast(obras,informacion)
+    return obras
+
+def listaFechas(obras):
+    fechas= lt.newList()
+    for obra in obras:
+        x= obra['Date']
+        lt.addLast(fechas, x)
+    return fechas 
+
+def ordenarlista(fechas):
+    listaOrdenada=sa.sort(fechas, ordenar)
+    return listaOrdenada
+
+def topnAntiguas(listaOrdenada, obras, n:int):
+    titulosOrdenados= lt.newList()
+    for fecha in listaOrdenada:
+        for obra in obras:
+            if fecha == obra['Date']:
+                lt.addLast(titulosOrdenados, obra['Title'])
+    posicion= n-1
+    topn= lt.subList(titulosOrdenados,lt.size(titulosOrdenados)-posicion,n)
+    return topn
+
 # Funciones para agregar informacion al catalogo
 
 # Funciones para creacion de datos

@@ -41,6 +41,17 @@ def printMenu():
 
 catalog = None
 
+def initDatos():
+    return controller.getiniciarDatos()
+
+def cargarDatos(catalog):
+    return controller.cargarDatos(catalog)
+
+def gettopnAntiguas(n:int):
+    return controller.gettopnAntiguas(n)
+
+def getorgObrasCro(catalog, medio):
+    return controller.getorgObrasCro(catalog, medio)
 """
 Menu principal
 """
@@ -49,8 +60,14 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
+        catalog= initDatos()
+        cargarDatos(catalog)
 
     elif int(inputs[0]) == 2:
+        n= input('Ingrese in numero: ')
+        medio= input('Ingrese el medio que quiere buscar: ')
+        print('las n obras más antiguas de' + medio)
+        gettopnAntiguas(n)
         pass
 
     else:
