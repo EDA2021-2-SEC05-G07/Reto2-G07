@@ -48,10 +48,9 @@ def cargarDatos(catalog):
     return controller.cargarDatos(catalog)
 
 def gettopnAntiguas(n:int):
-    return controller.gettopnAntiguas(n)
+    
+    return controller.gettopnAntiguas(listaOrdenada, obras, n)
 
-def getorgObrasCro(catalog, medio):
-    return controller.getorgObrasCro(catalog, medio)
 """
 Menu principal
 """
@@ -66,8 +65,11 @@ while True:
     elif int(inputs[0]) == 2:
         n= input('Ingrese in numero: ')
         medio= input('Ingrese el medio que quiere buscar: ')
-        print('las n obras más antiguas de' + medio)
-        gettopnAntiguas(n)
+        print('las n obras más antiguas de' + str(medio))
+        obras = controller.getorgObrasCro(catalog, medio)
+        fechas = controller.getlistaFechas(obras)
+        listaOrdenada = controller. getordenarlista(fechas)
+        nObras = controller.gettopnAntiguas(listaOrdenada, obras, n)
         pass
 
     else:
