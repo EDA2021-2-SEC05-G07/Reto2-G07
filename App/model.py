@@ -45,7 +45,7 @@ def iniciarDatos():
 
     catalog['Artists']= lt.newList()
     catalog['Artworks']= lt.newList()
-    catalog['Medium']=mp.newMap(1000, maptype='CHAINING', loadfactor=0.7)
+    catalog['Medium']=mp.newMap(1000, maptype='CHAINING', loadfactor=0.7, comparefunction=None)
 
     return catalog
 
@@ -101,3 +101,9 @@ def topnAntiguas(listaOrdenada, obras, n:int):
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 # Funciones de ordenamiento
+
+# Funciones de comparación
+
+def compareMedium(medium1, medium2):
+    pass 
+

@@ -61,19 +61,16 @@ def getorgObrasCro(catalog, medio):
     obras= model.orgObrasCro(catalog, medio)
     return obras
 
-obras= getorgObrasCro()
 
 def getlistaFechas(obras):
     fechas= model.listaFechas(obras)
     return fechas
 
-fechas= getlistaFechas(obras)
 
 def getordenarlista(fechas):
     listaOrdenada= model.ordenarlista(fechas)
     return listaOrdenada
 
-listaOrdenada= getordenarlista(fechas)
 
 def gettopnAntiguas(listaOrdenada, obras, n:int):
     topn= model.topnAntiguas(listaOrdenada, obras, n)
