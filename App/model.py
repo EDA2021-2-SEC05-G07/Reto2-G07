@@ -41,12 +41,12 @@ los mismos.
 
 #Carga de datos
 def iniciarDatos():
-    catalog={'Artists': None, 'Artworks': None, 'Medium': None}
+    catalog={'Artists': None, 'Artworks': None, 'Medium': None, 'Nationality': None}
 
     catalog['Artists']= lt.newList()
     catalog['Artworks']= lt.newList()
-    catalog['Medium']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6)
-
+    catalog['Medium']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6, comparefunction=compareMedium)
+    catalog['Nationality']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6, comparefunction=compareNationality)
     return catalog
 
 def addArtist(catalog, artist):
@@ -54,8 +54,17 @@ def addArtist(catalog, artist):
 
 def addArtwork(catalog, artwork):
     lt.addLast(catalog['Artworks'],artwork)
-    for tecnica in catalog['Artworks']['Medium']:
+    for tecnica in lt.iterator(catalog['Artworks']['Medium']):
         mp.put(catalog['Medium'],tecnica, artwork)
+    for nacionalidad in catalog['Artworks']['Nationality']:
+        mp.put(catalog['Nationality'],nacionalidad, artwork)
+
+def sizeNatio(catalog, nacionalidad):
+    contador = 0
+    for obra in lt.iterator(catalog['Artworks']):
+        if obra['Nationality'] == nacionalidad:
+            contador+=1 
+    return contador
 
 def ordenar(o1,o2):
     return o1['fecha']<o2['fecha']
@@ -63,7 +72,7 @@ def ordenar(o1,o2):
 
 def orgObrasCro(catalog, medio):
     obras =lt.newList()
-    for obra in lt.iterator(catalog['Artwoks']):
+    for obra in lt.iterator(catalog['Artworks']):
         if medio == obra['Medium']:
             informacion= lt.newList()
             lt.addLast(informacion, obra['Title'])
@@ -105,5 +114,19 @@ def topnAntiguas(listaOrdenada, obras, n:int):
 # Funciones de comparación
 
 def compareMedium(medium1, medium2):
-    pass 
+    if (medium1) == (medium2):
+        return 0
+    elif (medium1) > (medium2):
+        return 1
+    else:
+        return 0
+def compareNationality(natio1, natio2):
+    if (natio1) == (natio2):
+        return 0
+    elif (natio1) > (natio2):
+        return 1
+    else:
+        return 0
+    
+    
 

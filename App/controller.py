@@ -76,6 +76,9 @@ def gettopnAntiguas(listaOrdenada, obras, n:int):
     topn= model.topnAntiguas(listaOrdenada, obras, n)
     return topn
 
+def getSizeNatio(catalog, nacionalidad):
+    size = model.sizeNatio(catalog, nacionalidad)
+    return size
 # Funciones para la carga de datos
 
 # Funciones de ordenamiento

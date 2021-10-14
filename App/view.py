@@ -36,9 +36,9 @@ operación solicitada
 
 def printMenu():
     print("Bienvenido")
-    print("1- Cargar información en el catálogo")
-    print("2- ")
-
+    print("1 - Cargar información en el catálogo")
+    print("2 - Buscar las n obras mas antiguas de un medio")
+    print("3 - numero de obras de una nacionalidad")
 catalog = None
 
 def initDatos():
@@ -63,14 +63,19 @@ while True:
         cargarDatos(catalog)
 
     elif int(inputs[0]) == 2:
-        n= input('Ingrese in numero: ')
+        n= input('Ingrese un numero: ')
         medio= input('Ingrese el medio que quiere buscar: ')
         print('las n obras más antiguas de' + str(medio))
         obras = controller.getorgObrasCro(catalog, medio)
         fechas = controller.getlistaFechas(obras)
         listaOrdenada = controller. getordenarlista(fechas)
         nObras = controller.gettopnAntiguas(listaOrdenada, obras, n)
-        pass
+
+    elif int(inputs[0]) == 3:
+        nacionalidad = input('Ingrese la nacionalidad que quiere buscar: ')
+        cant = controller.getSizeNatio(catalog, nacionalidad)
+        print('El número total de obras de la nacionalidad'+ str(nacionalidad) + 'es: ' + str(cant))
+        
 
     else:
         sys.exit(0)
