@@ -45,7 +45,7 @@ def iniciarDatos():
 
     catalog['Artists']= lt.newList()
     catalog['Artworks']= lt.newList()
-    catalog['Medium']=mp.newMap(1000, maptype='CHAINING', loadfactor=0.7, comparefunction=None)
+    catalog['Medium']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6)
 
     return catalog
 
