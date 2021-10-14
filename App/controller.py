@@ -40,15 +40,17 @@ def cargarDatos(catalog):
 
     loadArtist(catalog)
     loadArtworks(catalog)
+    model.cargarmapaMedios(catalog)
+    model.cargarNacionalidades(catalog)
 
 def loadArtist(catalog):
-    artistfile= cf.data_dir + 'MoMA/Artists-utf8-large.csv'
+    artistfile= cf.data_dir + 'Artists-utf8-small.csv'
     input_file= csv.DictReader(open(artistfile, encoding='utf-8'))
     for artist in input_file:
         model.addArtist(catalog, artist)
 
 def loadArtworks(catalog):
-    artworksfile= cf.data_dir + 'MoMA/Artworks-utf8-large.csv'
+    artworksfile= cf.data_dir + 'Artworks-utf8-small.csv'
     input_file= csv.DictReader(open(artworksfile, encoding='utf-8'))
     for artwork in input_file:
         model.addArtwork(catalog, artwork)

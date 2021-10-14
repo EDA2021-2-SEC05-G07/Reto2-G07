@@ -52,12 +52,35 @@ def iniciarDatos():
 def addArtist(catalog, artist):
     lt.addLast(catalog['Artists'], artist)
 
+def cargarmapaMedios(catalog):
+    for obra in lt.iterator(catalog['Artworks']):
+        if mp.contains(catalog['Medium'],obra['Medium']):
+            valor=mp.get(catalog['Medium'], obra['Medium'])
+            value= me.getValue(valor)
+            lt.addLast(value, obra)
+        else:
+            lista= lt.newList()
+            lt.addLast(lista, obra)
+            mp.put(catalog['Medium'],obra['Medium'], lista)
+def cargarNacionalidades(catalog):
+    for artista in lt.iterator(catalog['Artists']):
+        id= artista['ConstituentID']
+        listaObras= lt.newList()
+        for obra in lt.iterator(catalog['Artworks']):
+            if id == obra['ObjectID']:
+                lt.addLast(listaObras, obra)
+
+        if mp.contains(catalog['Nationality'],artista['Nationality']):
+            valor=mp.get(catalog['Nationality'], artista['Nationality'])
+            value= me.getValue(valor)
+            for obra in lt.iterator(listaObras):
+                lt.addLast(value, obra)
+        else:
+            mp.put(catalog['Nationality'],artista['Nationality'], listaObras)
+
 def addArtwork(catalog, artwork):
     lt.addLast(catalog['Artworks'],artwork)
-    for tecnica in lt.iterator(catalog['Artworks']['Medium']):
-        mp.put(catalog['Medium'],tecnica, artwork)
-    for nacionalidad in catalog['Artworks']['Nationality']:
-        mp.put(catalog['Nationality'],nacionalidad, artwork)
+    
 
 def sizeNatio(catalog, nacionalidad):
     contador = 0
@@ -114,6 +137,7 @@ def topnAntiguas(listaOrdenada, obras, n:int):
 # Funciones de comparación
 
 def compareMedium(medium1, medium2):
+    medium2= me.getKey(medium2)
     if (medium1) == (medium2):
         return 0
     elif (medium1) > (medium2):
@@ -121,6 +145,7 @@ def compareMedium(medium1, medium2):
     else:
         return 0
 def compareNationality(natio1, natio2):
+    natio2= me.getKey(natio2)
     if (natio1) == (natio2):
         return 0
     elif (natio1) > (natio2):
