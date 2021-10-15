@@ -1,1 +1,1 @@
-Responder preguntas y marcar con el nombre de los integrantes
+Responder preguntas y marcar con el nombre de los integrantes. 
