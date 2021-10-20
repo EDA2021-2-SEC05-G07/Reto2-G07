@@ -41,16 +41,40 @@ los mismos.
 
 #Carga de datos
 def iniciarDatos():
-    catalog={'Artists': None, 'Artworks': None, 'Medium': None, 'Nationality': None, 'RangoFechasArtistas': None, 'RangoFechasObras': None, 'Departamento': None}
+    catalog={'Artists': None,
+            'Artworks': None,
+            'Medium': None,
+            'Nationality': None,
+            'RangoFechasArtistas': None,
+            'RangoFechasObras': None,
+            'Departamento': None}
 
     catalog['Artists']= lt.newList()
     catalog['Artworks']= lt.newList()
-    catalog['Medium']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6, comparefunction=compareMedium)
-    catalog['Nationality']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6, comparefunction=compareNationality)
-    catalog['RangoFechasArtistas']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6, comparefunction=compareBeginDate)
-    catalog['RangoFechasObras']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6, comparefunction=compareBeginDateObras)
-    catalog['Departamento']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6, comparefunction=compareDepartamento)
-    catalog['CostoObras']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6, comparefunction=compareCostoObras)
+    catalog['Medium']=mp.newMap(1153,
+                                 maptype='PROBING',
+                                 loadfactor=0.6,
+                                 comparefunction=compareMedium)
+    catalog['Nationality']=mp.newMap(1153,
+                                    maptype='PROBING',
+                                    loadfactor=0.6,
+                                    comparefunction=compareNationality)
+    catalog['RangoFechasArtistas']=mp.newMap(1153,
+                                            maptype='PROBING',
+                                            loadfactor=0.6,
+                                            comparefunction=compareBeginDate)
+    catalog['RangoFechasObras']=mp.newMap(1153,
+                                        maptype='PROBING',
+                                        loadfactor=0.6,
+                                        comparefunction=compareBeginDateObras)
+    catalog['Departamento']=mp.newMap(1153,
+                                    maptype='PROBING',
+                                    loadfactor=0.6,
+                                    comparefunction=compareDepartamento)
+    catalog['CostoObras']=mp.newMap(1153,
+                                    maptype='PROBING',
+                                    loadfactor=0.6,
+                                    comparefunction=compareCostoObras)
     return catalog
 
 def addArtist(catalog, artist):
@@ -168,6 +192,89 @@ def listaFechas(obras):
 def ordenarlista(fechas):
     listaOrdenada=sa.sort(fechas, ordenar)
     return listaOrdenada
+
+
+#Requerimiento 4
+def idArtists(catalog):
+    for artist in lt.iterator(catalog['Artists']):
+        id = artist['ConstituentID']
+    return id
+def idyNacio(catalog, id):
+    #en id entraria el constituent ID de artists (return idArtists)
+    for obra in lt.iterator(catalog['Artworks']):
+        if id == obra['ConstituentID']:
+            for artista in lt.iterator(catalog['Artists']):
+                nacionalidad = artista['Nationality']
+                mp.put(catalog['Nationality'], nacionalidad, '')
+def idyNacio(catalog, id):
+    nacioNombre = {}
+    #en id entraria el constituent ID de artists (return idArtists)
+    for obra in lt.iterator(catalog['Artworks']):
+        if id == obra['ConstituentID']:
+            for artista in lt.iterator(catalog['Artists']):
+                nacionalidad = artista['Nationality']
+            nacioNombre[nacionalidad]= ''
+    return nacioNombre
+
+def contNacio(catalog):
+    conteoNa = 0
+    for artist in lt.iterator(catalog['Artists']):
+        nacionalidad = artist['Nationality']
+        natioKeys = mp.keySet(catalog['Nationality'])
+        if nacionalidad in natioKeys:
+            conteoNa += 1
+            mp.put(catalog['Nationality'], nacionalidad, conteoNa)
+    
+def Top10(catalog):
+    valoresNacio=lt.newList()
+    top10=  lt.newList()
+    for nacio in catalog['Nationality']:
+        lt.addLast(valoresNacio, nacio)
+    valoresOrdenados= sa.sort(valoresNacio)
+    valorestop10= lt.subList(valoresOrdenados, 1, 10)
+    for valor in lt.iterator(valorestop10):
+        natioKeys = mp.keySet(catalog['Nationality'])
+        for valornacionalidad in natioKeys:
+            if natioKeys[valornacionalidad] == valor:
+                nacionalidad= valornacionalidad
+                lt.addLast(top10, nacionalidad)
+    return top10
+
+def nacioMasObras(top10, catalog):
+    uno = lt.getElement(top10,1)
+    for artista in lt.iterator(catalog['Artists']):
+        nacionalidad = artista['Nationality']
+        if nacionalidad == uno:
+            id= artista['ConstituentID']
+            for obra in lt.iterator(catalog['Artworks']):
+                if id == obra['ConstituentID']:
+                    for obra in top10:
+                        x = lt.newList
+                        lt.addLast(x, obra['Title'])
+                        lt.addLast(x, obra['Date'])
+                        lt.addLast(x, obra['Medium'])
+                        lt.addLast(x, obra['Dimensions'])
+                        lt.addLast(x, obra[compararIDayo(obra['ConstituentID'])])
+                        obrasNa = lt.newList
+                        lt.addLast(obrasNa,x)
+    return obrasNa
+
+def lista_nacionalidades(catalog):
+    mayor=0
+    top10= 0
+    lst_nacio_ord = lt.newList
+    natio= catalog['Nationality']
+    for obra in natio:
+        size= lt.size(obra)
+        if size > mayor:
+            mayor= size
+            while top10 <= 10:
+                key = mp.valueSet(catalog['Nationality'])
+                if key == natio['Nationality']:
+                    nacionalidad_mas_repetida = key
+                    top10+= 1
+                    lst_top10_final = lt.addLast(lst_nacio_ord,nacionalidad_mas_repetida)
+                return lst_top10_final
 
 #Requerimiento 5
 def obrasDepartamento(departamento, catalog):
