@@ -99,6 +99,27 @@ def getordenarObras(obras):
 def getnumPurchase(catalog):
     conteoPu= model.numPurchase(catalog)
     return conteoPu
+    
+# Funciones requerimiento 4
+def getidArtists(catalog):
+    id=model.idArtists(catalog)
+    return id
+def getidyNacio(catalog, id):
+    "que retorna ?"
+    return model.idyNacio(catalog, id)
+def getcontNacio(catalog):
+    conteoNa = model.contNacio(catalog)
+    return conteoNa
+def getTop10(catalog):
+    top10= model.Top10(catalog)
+    return top10
+def getnacioMasObras(top10, catalog):
+    obrasNa= model.nacioMasObras(top10, catalog)
+    return obrasNa
+def getlista_nacionalidades(catalog):
+    lst_top10_final=model.lista_nacionalidades(catalog)
+    return lst_top10_final
+
 #Requerimiento 5
 def getlistafechas(catalog):
     listafechas= model.listafechas(catalog)

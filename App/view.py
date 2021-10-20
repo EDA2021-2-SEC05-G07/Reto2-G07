@@ -41,6 +41,7 @@ def printMenu():
     print("3 - total obras nacionalidad-LABORATORIO-")
     print("4 - artistas en orden cronologico -REQ 1-")
     print("5 - obras en orden cronologico -REQ 2-")
+    print("6 - clasificar las obras por la nacionalidad de sus creadores-REQ 4-")
     print("8 - costo transporte departamento -REQ 5-")
 catalog = None
 
@@ -88,6 +89,7 @@ while True:
         ultimos3=
         print(primeros3)
         print(ultimos3)
+        
     elif int(inputs[0]) == 5:
         inicial=input('Ingrese la fecha inicial: ')
         final=input('Ingrese la fecha final: ')
@@ -97,6 +99,16 @@ while True:
         ultimos3=
         print(primeros3)
         print(ultimos3)
+
+    elif int(inputs[0]) == 6:
+        id= controller.getidArtists
+        cargarNacio = controller.getidyNacio(catalog, id)
+        lst_top10_final=controller.getlista_nacionalidades(catalog)
+        print('Lista de nacionalidades ordenadas por el total de obras de mayor a menor (TOP 10).' + str(lst_top10_final))
+        top10= controller.getTop10(catalog)
+        info_obras= controller.getnacioMasObras(top10, catalog)
+        print('Información de las obras de la nacionalidad con el mayor numero de obras') + info_obras
+
     elif int(inputs[0]) == 8:
         departamento = input('Departamento del museo: ')
         total_obras= controller.getcantidadObras(catalog)

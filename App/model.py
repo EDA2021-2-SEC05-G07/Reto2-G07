@@ -199,6 +199,7 @@ def idArtists(catalog):
     for artist in lt.iterator(catalog['Artists']):
         id = artist['ConstituentID']
     return id
+
 def idyNacio(catalog, id):
     #en id entraria el constituent ID de artists (return idArtists)
     for obra in lt.iterator(catalog['Artworks']):
@@ -206,15 +207,6 @@ def idyNacio(catalog, id):
             for artista in lt.iterator(catalog['Artists']):
                 nacionalidad = artista['Nationality']
                 mp.put(catalog['Nationality'], nacionalidad, '')
-def idyNacio(catalog, id):
-    nacioNombre = {}
-    #en id entraria el constituent ID de artists (return idArtists)
-    for obra in lt.iterator(catalog['Artworks']):
-        if id == obra['ConstituentID']:
-            for artista in lt.iterator(catalog['Artists']):
-                nacionalidad = artista['Nationality']
-            nacioNombre[nacionalidad]= ''
-    return nacioNombre
 
 def contNacio(catalog):
     conteoNa = 0
@@ -224,6 +216,7 @@ def contNacio(catalog):
         if nacionalidad in natioKeys:
             conteoNa += 1
             mp.put(catalog['Nationality'], nacionalidad, conteoNa)
+            return conteoNa
     
 def Top10(catalog):
     valoresNacio=lt.newList()
@@ -368,7 +361,7 @@ def obrasMasAntiguas(listaOrdenada, catalog):
         lt.addLast(info, obra['Medium'])
         lt.addLast(info, obra['Dimensions'])
         costotransporte= dictCostos(catalog)
-        for llave in catalog
+        for llave in catalog:
             if llave == obra['Title']:
                 costo=costotransporte[llave]
                 break
