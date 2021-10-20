@@ -81,6 +81,64 @@ def gettopnAntiguas(listaOrdenada, obras, n:int):
 def getSizeNatio(catalog, nacionalidad):
     size = model.sizeNatio(catalog, nacionalidad)
     return size
+
+#Requerimiento 1
+def getorgartistasCro(catalog, inicial, final):
+    size= model.orgartistasCro(catalog, inicial, final)
+    return size
+#Requerimiento 2
+def getorgObrasCro(catalog, inicial, final):
+    conteoObras= model.orgObrasCro(catalog, inicial, final)
+    return conteoObras
+def getcompararIDayo(catalog, id):
+    nomArtista= model.compararIDayo(catalog, id)
+    return nomArtista
+def getordenarObras(obras):
+    ordenada= model.ordenarObras(obras)
+    return ordenada
+def getnumPurchase(catalog):
+    conteoPu= model.numPurchase(catalog)
+    return conteoPu
+#Requerimiento 5
+def getlistafechas(catalog):
+    listafechas= model.listafechas(catalog)
+    return listafechas
+def getordenar(o1,o2):
+    orden=model.ordenar(o1,o2)
+    return orden
+def getordenarlista(listafechas):
+    listaordenada=model.ordenarlista(listafechas)
+    return listaordenada
+def getlistaprecios(catalog):
+    listaprecios= model.listaprecios(catalog)
+    return listaprecios
+def getordenar(o1,o2):
+    orden2= model.ordenar2(o1,o2)
+    return orden2
+def getordenarlista(listafechas):
+    listaOrdenadaprecios2= model.ordenarlista(listafechas)
+    return listaOrdenadaprecios2
+def getordenar2(o1,o2):
+    resultado= model.ordenar2(o1,o2)
+    return resultado
+def getordenarlista2(listaprecios):
+    listaOrdenadaprecios2= model.ordenarlista2(listaprecios)
+    return listaOrdenadaprecios2
+def getpesototal(catalog):
+    peso= model.pesototal(catalog)
+    return peso
+def getcantidadObras(catalog):
+    totalObras= model.cantidadObras(catalog)
+    return totalObras
+def getcostoEstimado(catalog):
+    suma= model.costoEstimado(catalog)
+    return suma
+def getobrasMasAntiguas(listaOrdenada, catalog):
+    masAntiguas= model.obrasMasAntiguas(listaOrdenada, catalog)
+    return masAntiguas
+def getobrasMasCost(listaOrdenadaprecios2, catalog):
+    masCost= model.obrasMasCost(listaOrdenadaprecios2, catalog)
+    return masCost
 # Funciones para la carga de datos
 
 # Funciones de ordenamiento

@@ -41,12 +41,16 @@ los mismos.
 
 #Carga de datos
 def iniciarDatos():
-    catalog={'Artists': None, 'Artworks': None, 'Medium': None, 'Nationality': None}
+    catalog={'Artists': None, 'Artworks': None, 'Medium': None, 'Nationality': None, 'RangoFechasArtistas': None, 'RangoFechasObras': None, 'Departamento': None}
 
     catalog['Artists']= lt.newList()
     catalog['Artworks']= lt.newList()
     catalog['Medium']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6, comparefunction=compareMedium)
     catalog['Nationality']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6, comparefunction=compareNationality)
+    catalog['RangoFechasArtistas']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6, comparefunction=compareBeginDate)
+    catalog['RangoFechasObras']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6, comparefunction=compareBeginDateObras)
+    catalog['Departamento']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6, comparefunction=compareDepartamento)
+    catalog['CostoObras']=mp.newMap(1153, maptype='PROBING', loadfactor=0.6, comparefunction=compareCostoObras)
     return catalog
 
 def addArtist(catalog, artist):
@@ -92,6 +96,57 @@ def sizeNatio(catalog, nacionalidad):
 def ordenar(o1,o2):
     return o1['fecha']<o2['fecha']
 
+#Requerimiento 1
+
+def orgartistasCro(catalog, inicial, final):
+    for artista in lt.iterator(catalog['Artists']):
+        if artista['BeginDate']>= inicial and artista['BeginDate']<= final:
+            informacion= lt.newList()
+            lt.addLast(informacion, artista['DisplayName'])
+            lt.addLast(informacion, artista['BeginDate'])
+            lt.addLast(informacion, artista['EndDate'])
+            lt.addLast(informacion, artista['Nationality'])
+            lt.addLast(informacion, artista['Gender'])
+            mp.put(catalog['RangoFechas'],artista['DisplayName'], informacion)
+    totalArtistas= lt.size(catalog['RangoFechasArtistas'])
+    return totalArtistas
+
+#Requerimiento 2
+def compararIDayo(catalog, id):
+    #en id entraria el constituent ID del artworks
+    for artist in lt.iterator(catalog['Artist']):
+        if id == artist['ConstituentID']:
+            nomArtista = artist['DisplayName']
+            return nomArtista
+
+def orgObrasCro(catalog, inicial, final):
+    for obra in lt.iterator(catalog['Artworks']):        
+        if obra['DateAcquired']>= inicial and obra['DateAcquired']<= final:
+            informacion= lt.newList()
+            lt.addLast(informacion, obra['Title'])
+            lt.addLast(informacion, obra[compararIDayo(obra['ConstituentID'])])
+            lt.addLast(informacion, obra['Date'])
+            lt.addLast(informacion, obra['DateAcquired'])
+            lt.addLast(informacion, obra['Medium'])
+            lt.addLast(informacion, obra['Dimensions'])
+            mp.put(catalog['RangoFechasObras'],obra['Title'], informacion)
+    conteoObras=lt.size(catalog['RangoFechasObras'])
+    return conteoObras
+
+def ordenarObras(obras):
+    ordenada= ordenarlista(obras)
+    return ordenada
+
+def numPurchase(catalog):
+    conteoPu = 0
+    for obra in lt.iterator(catalog['Artworks']):
+        if obra['CreditLine'] == 'Purchase':
+            conteoPu += 1
+        return conteoPu
+
+def ordenarArtistas(artistas):
+    ordenada= ordenarlista(artistas)
+    return ordenada
 
 def orgObrasCro(catalog, medio):
     obras =lt.newList()
@@ -113,6 +168,128 @@ def listaFechas(obras):
 def ordenarlista(fechas):
     listaOrdenada=sa.sort(fechas, ordenar)
     return listaOrdenada
+
+#Requerimiento 5
+def obrasDepartamento(departamento, catalog):
+    for obra in lt.iterator(catalog['Artworks']):
+        if catalog['Artworks']['Department'] == departamento:
+            mp.put(catalog['Departamento'],obra['Title'], obra)
+def listafechas(catalog):
+    listafechas= lt.newList('SINGLE_LINKED')
+    for obra in catalog['Departamento']:
+        f= obra['Date']
+        t= obra['Title']
+        lt.addLast(listafechas, {'fecha': f, 'titulo': t})
+    return listafechas
+
+def ordenar(o1,o2):
+    return o1['fecha']<o2['fecha']
+
+def ordenarlista(listafechas):
+    listaOrdenada=sa.sort(listafechas, ordenar)
+    return listaOrdenada
+
+def listaprecios(catalog):
+    listaprecios= lt.newList('SINGLE_LINKED')
+    for llave in catalog['CostoObras']:
+        costo= catalog['CostoObras'][llave]
+        lt.addLast(listafechas, {'costo': costo, 'titulo': llave})
+    return listaprecios
+
+def ordenar2(o1,o2):
+    return o1['costo']<o2['costo']
+
+def ordenarlista2(listaprecios):
+    listaOrdenadaprecios2=sa.sort(listaprecios, ordenar)
+    return listaOrdenadaprecios2
+
+def pesototal(catalog):
+    peso=0
+    for obra in catalog['Departamento']:
+        pesoObra= int(obra['Weight'])
+        peso+= pesoObra
+    return peso
+
+def cantidadObras(catalog):
+    totalObras= mp.size(catalog['Departamento'])
+    return totalObras
+
+def dictCostos(catalog):
+    for obra in catalog['Departamento']:
+        altura=obra['Height']
+        longitud=obra['Length']
+        peso=obra['Weigth']
+        ancho= obra['Width']
+        if (altura== '' or longitud=='') and peso=='':
+            mp.put(catalog['CostoObras'],obra['Title'], 48)
+        else:
+            mayor=0
+            costos=lt.newList()
+            if longitud != '' and altura!= '':
+                area= (altura*longitud)/100
+                precioArea= 72/area
+                lt.addLast(costos, precioArea)
+                if ancho!='':
+                    volumen= (altura*longitud*ancho)/100
+                    precioVolumen= 72/volumen
+                    lt.addLast(costos, precioVolumen)
+            if peso != '':
+                precioPeso= 72/peso
+                lt.addLast(costos, precioPeso)
+            for precio in lt.iterator(costos):
+                if precio> mayor:
+                    mayor= precio
+            mp.put(catalog['CostoObras'],obra['Title'], mayor)
+
+def costoEstimado(catalog):
+    valores=catalog['CostoObras']
+    val= mp.valueSet(valores)
+    suma=sum(val)
+    return suma
+
+def obrasMasAntiguas(listaOrdenada, catalog):
+    x= lt.subList(listaOrdenada, (lt.size(listaOrdenada))-4, 5)
+    masAntiguas= lt.newList()
+    for obra in lt.iterator(x):
+        info= lt.newList()
+        lt.addLast(info, obra['Title'])
+        id= obra['ConstituentID']
+        artista = compararIDayo(catalog,id)
+        lt.addLast(info, artista)
+        lt.addLast(info, obra['Classification'])
+        lt.addLast(info, obra['Date'])
+        lt.addLast(info, obra['Medium'])
+        lt.addLast(info, obra['Dimensions'])
+        costotransporte= dictCostos(catalog)
+        for llave in catalog
+            if llave == obra['Title']:
+                costo=costotransporte[llave]
+                break
+        lt.addLast(info, costo)
+        lt.addLast(masAntiguas, info)
+    return masAntiguas 
+
+def obrasMasCost(listaOrdenadaprecios2, catalog, lista):
+    x= lt.subList(listaOrdenadaprecios2, (lt.size(listaOrdenadaprecios2))-4, 5)
+    masCost= lt.newList()
+    for obra in lt.iterator(x):
+        info= lt.newList()
+        lt.addLast(info, obra['Title'])
+        id= obra['ConstituentID']
+        artista = compararIDayo(catalog, id)
+        lt.addLast(info, artista)
+        lt.addLast(info, obra['Classification'])
+        lt.addLast(info, obra['Date'])
+        lt.addLast(info, obra['Medium'])
+        lt.addLast(info, obra['Dimensions'])
+        for llave in catalog['Departamento']:
+            if llave == obra['Title']:
+                costo=catalog['Departamento'][llave]
+                break
+        lt.addLast(info, costo)
+        lt.addLast(masCost, info)
+    return masCost
+    ####################
 
 def topnAntiguas(listaOrdenada, obras, n:int):
     titulosOrdenados= lt.newList()
@@ -152,6 +329,45 @@ def compareNationality(natio1, natio2):
         return 1
     else:
         return 0
-    
+def compareBeginDate(date1, date2):
+    date2= me.getKey(date2)
+    if (date1) == (date2):
+        return 0
+    elif (date1) > (date2):
+        return 1
+    else:
+        return 0
+def compareEndDate(date1, date2):
+    date2= me.getKey(date2)
+    if (date1) == (date2):
+        return 0
+    elif (date1) > (date2):
+        return 1
+    else:
+        return 0
+def compareBeginDateObras(date1, date2):
+    date2= me.getKey(date2)
+    if (date1) == (date2):
+        return 0
+    elif (date1) > (date2):
+        return 1
+    else:
+        return 0
+def compareDepartamento(dep1, dep2):
+    dep2= me.getKey(dep2)
+    if (dep1) == (dep2):
+        return 0
+    elif (dep1) > (dep2):
+        return 1
+    else:
+        return 0
+def compareCostoObras(cos1, cos2):
+    cos2= me.getKey(cos2)
+    if (cos1) == (cos2):
+        return 0
+    elif (cos1) > (cos2):
+        return 1
+    else:
+        return 0
     
 

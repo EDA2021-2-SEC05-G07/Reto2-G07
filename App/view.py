@@ -37,8 +37,11 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1 - Cargar información en el catálogo")
-    print("2 - Buscar las n obras mas antiguas de un medio")
-    print("3 - numero de obras de una nacionalidad")
+    print("2 - obras en orden cronologico -LABORATORIO-")
+    print("3 - total obras nacionalidad-LABORATORIO-")
+    print("4 - artistas en orden cronologico -REQ 1-")
+    print("5 - obras en orden cronologico -REQ 2-")
+    print("8 - costo transporte departamento -REQ 5-")
 catalog = None
 
 def initDatos():
@@ -75,7 +78,41 @@ while True:
         nacionalidad = input('Ingrese la nacionalidad que quiere buscar: ')
         cant = controller.getSizeNatio(catalog, nacionalidad)
         print('El número total de obras de la nacionalidad'+ str(nacionalidad) + 'es: ' + str(cant))
-        
+    
+    elif int(inputs[0]) == 4:
+        inicial=input('Ingrese la fecha inicial: ')
+        final=input('Ingrese la fecha final: ')
+        totalArtist=controller.getorgartistasCro(catalog, inicial, final)
+        print('El número total de artistas es: ' + str(totalArtist))
+        primeros3=
+        ultimos3=
+        print(primeros3)
+        print(ultimos3)
+    elif int(inputs[0]) == 5:
+        inicial=input('Ingrese la fecha inicial: ')
+        final=input('Ingrese la fecha final: ')
+        totalObras=controller.getorgObrasCro(catalog, inicial, final)
+        print('El número total de artistas es: ' + str(totalObras))
+        primeros3=
+        ultimos3=
+        print(primeros3)
+        print(ultimos3)
+    elif int(inputs[0]) == 8:
+        departamento = input('Departamento del museo: ')
+        total_obras= controller.getcantidadObras(catalog)
+        print('Total de obras para transportar: ' + str(total_obras))
+        estimado = controller.getcostoEstimado(catalog)
+        print('Estimado en USD del precio del servicio: ' + str(estimado))
+        peso_estimado = controller.getpesototal(catalog)
+        print('Peso estimado de las obras: ' + str(peso_estimado))
+        listafechas= controller.getlistafechas(catalog)
+        listaOrdenada= controller.getordenarlista(listafechas)
+        obras_antiguas = controller.getobrasMasAntiguas(listaOrdenada, catalog)
+        print('Las 5 obras mas antiguas a transportar: ' + obras_antiguas)
+        listaprecios = controller.getlistaprecios(catalog)
+        listaOrdenadaprecios = controller.getordenarlista2(listaprecios)
+        obras_costosas = controller.getobrasMasCost(listaOrdenadaprecios, catalog)
+        print('Las 5 obras mas costosas para transportar: ' + obras_costosas)
 
     else:
         sys.exit(0)
