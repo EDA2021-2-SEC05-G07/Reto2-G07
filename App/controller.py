@@ -84,8 +84,8 @@ def getSizeNatio(catalog, nacionalidad):
 
 #Requerimiento 1
 def getorgartistasCro(catalog, inicial, final):
-    size= model.orgartistasCro(catalog, inicial, final)
-    return size
+    listaInfo= model.orgartistasCro(catalog, inicial, final)
+    return listaInfo
 #Requerimiento 2
 def getorgObrasCro(catalog, inicial, final):
     conteoObras= model.orgObrasCro(catalog, inicial, final)

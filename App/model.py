@@ -79,6 +79,16 @@ def iniciarDatos():
 
 def addArtist(catalog, artist):
     lt.addLast(catalog['Artists'], artist)
+    fechabegin= artist['BeginDate']
+    esta = mp.contains(catalog['RangoFechasArtistas'], fechabegin)
+    if not esta:
+        listaArtista = lt.newList()
+        lt.addLast(listaArtista, artist)
+        mp.put(catalog['RangoFechasArtistas'], fechabegin, listaArtista)
+    else:
+        listaArtista = mp.get(catalog['RangoFechasArtistas'], fechabegin)['value']
+        lt.addLast(listaArtista, artist)
+        mp.put(catalog['RangoFechasArtistas'], fechabegin, listaArtista)
 
 def cargarmapaMedios(catalog):
     for obra in lt.iterator(catalog['Artworks']):
@@ -109,7 +119,6 @@ def cargarNacionalidades(catalog):
 def addArtwork(catalog, artwork):
     lt.addLast(catalog['Artworks'],artwork)
     
-
 def sizeNatio(catalog, nacionalidad):
     contador = 0
     for obra in lt.iterator(catalog['Artworks']):
@@ -123,17 +132,24 @@ def ordenar(o1,o2):
 #Requerimiento 1
 
 def orgartistasCro(catalog, inicial, final):
-    for artista in lt.iterator(catalog['Artists']):
-        if artista['BeginDate']>= inicial and artista['BeginDate']<= final:
-            informacion= lt.newList()
-            lt.addLast(informacion, artista['DisplayName'])
-            lt.addLast(informacion, artista['BeginDate'])
-            lt.addLast(informacion, artista['EndDate'])
-            lt.addLast(informacion, artista['Nationality'])
-            lt.addLast(informacion, artista['Gender'])
-            mp.put(catalog['RangoFechas'],artista['DisplayName'], informacion)
-    totalArtistas= lt.size(catalog['RangoFechasArtistas'])
-    return totalArtistas
+    listaArtistas = lt.newList()
+    i = True
+    while inicial <= final and i== True:
+        esta = mp.contains(catalog['RangoFechasArtistas'], inicial)
+        if esta: 
+            lista = mp.get(catalog['RangoFechasArtistas'], inicial)['value']
+            for element in lt.iterator(lista):
+                lt.addLast(listaArtistas, element)
+            for artista in listaArtistas:
+                listaInfo= lt.newList()
+                lt.addLast(listaInfo, artista['DisplayName'])
+                lt.addLast(listaInfo, artista['BeginDate'])
+                lt.addLast(listaInfo, artista['EndDate'])
+                lt.addLast(listaInfo, artista['Nationality'])
+                lt.addLast(listaInfo, artista['Gender'])
+                i = False
+    return listaInfo
+#falta ordenar la lista para poder sacar los primeros y ultimos 3
 
 #Requerimiento 2
 def compararIDayo(catalog, id):
@@ -420,7 +436,7 @@ def compareMedium(medium1, medium2):
     elif (medium1) > (medium2):
         return 1
     else:
-        return 0
+        return -1
 def compareNationality(natio1, natio2):
     natio2= me.getKey(natio2)
     if (natio1) == (natio2):
@@ -428,7 +444,7 @@ def compareNationality(natio1, natio2):
     elif (natio1) > (natio2):
         return 1
     else:
-        return 0
+        return -1
 def compareBeginDate(date1, date2):
     date2= me.getKey(date2)
     if (date1) == (date2):
@@ -436,7 +452,7 @@ def compareBeginDate(date1, date2):
     elif (date1) > (date2):
         return 1
     else:
-        return 0
+        return -1
 def compareEndDate(date1, date2):
     date2= me.getKey(date2)
     if (date1) == (date2):
@@ -444,7 +460,7 @@ def compareEndDate(date1, date2):
     elif (date1) > (date2):
         return 1
     else:
-        return 0
+        return -1
 def compareBeginDateObras(date1, date2):
     date2= me.getKey(date2)
     if (date1) == (date2):
@@ -452,7 +468,7 @@ def compareBeginDateObras(date1, date2):
     elif (date1) > (date2):
         return 1
     else:
-        return 0
+        return -1
 def compareDepartamento(dep1, dep2):
     dep2= me.getKey(dep2)
     if (dep1) == (dep2):
@@ -460,7 +476,7 @@ def compareDepartamento(dep1, dep2):
     elif (dep1) > (dep2):
         return 1
     else:
-        return 0
+        return -1
 def compareCostoObras(cos1, cos2):
     cos2= me.getKey(cos2)
     if (cos1) == (cos2):
@@ -468,6 +484,6 @@ def compareCostoObras(cos1, cos2):
     elif (cos1) > (cos2):
         return 1
     else:
-        return 0
+        return -1
     
 

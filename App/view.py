@@ -66,39 +66,37 @@ while True:
         catalog= initDatos()
         cargarDatos(catalog)
 
-    elif int(inputs[0]) == 2:
-        n= input('Ingrese un numero: ')
-        medio= input('Ingrese el medio que quiere buscar: ')
-        print('las n obras más antiguas de' + str(medio))
-        obras = controller.getorgObrasCro(catalog, medio)
-        fechas = controller.getlistaFechas(obras)
-        listaOrdenada = controller. getordenarlista(fechas)
-        nObras = controller.gettopnAntiguas(listaOrdenada, obras, n)
+    #elif int(inputs[0]) == 2:
+       # n= input('Ingrese un numero: ')
+        #medio= input('Ingrese el medio que quiere buscar: ')
+        #print('las n obras más antiguas de' + str(medio))
+        #obras = controller.getorgObrasCro(catalog, medio)
+        #fechas = controller.getlistaFechas(obras)
+        #listaOrdenada = controller. getordenarlista(fechas)
+        #nObras = controller.gettopnAntiguas(listaOrdenada, obras, n)
 
-    elif int(inputs[0]) == 3:
-        nacionalidad = input('Ingrese la nacionalidad que quiere buscar: ')
-        cant = controller.getSizeNatio(catalog, nacionalidad)
-        print('El número total de obras de la nacionalidad'+ str(nacionalidad) + 'es: ' + str(cant))
+    #elif int(inputs[0]) == 3:
+      #  nacionalidad = input('Ingrese la nacionalidad que quiere buscar: ')
+     #   cant = controller.getSizeNatio(catalog, nacionalidad)
+       # print('El número total de obras de la nacionalidad'+ str(nacionalidad) + 'es: ' + str(cant))
     
     elif int(inputs[0]) == 4:
         inicial=input('Ingrese la fecha inicial: ')
         final=input('Ingrese la fecha final: ')
         totalArtist=controller.getorgartistasCro(catalog, inicial, final)
-        print('El número total de artistas es: ' + str(totalArtist))
-        primeros3=
-        ultimos3=
-        print(primeros3)
-        print(ultimos3)
+        print('El número total de artistas es: ' + str(lt.size(totalArtist)))
+        print('Primeros 3 artistas del rango cronologico: ' )
+        print('Ultimos 3 artistas del rango cronológico: ')
         
     elif int(inputs[0]) == 5:
         inicial=input('Ingrese la fecha inicial: ')
         final=input('Ingrese la fecha final: ')
         totalObras=controller.getorgObrasCro(catalog, inicial, final)
         print('El número total de artistas es: ' + str(totalObras))
-        primeros3=
-        ultimos3=
-        print(primeros3)
-        print(ultimos3)
+        #primeros3=
+        #ultimos3=
+        #print(primeros3)
+        #print(ultimos3)
 
     elif int(inputs[0]) == 6:
         id= controller.getidArtists
