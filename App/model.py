@@ -349,7 +349,7 @@ def lista_nacionalidades(catalog):
                     nacionalidad_mas_repetida = key
                     top10+= 1
                     lst_top10_final = lt.addLast(lst_nacio_ord,nacionalidad_mas_repetida)
-                return lst_top10_final
+    return lst_top10_final
 
 #Requerimiento 5
 def obrasDepartamento(departamento, catalog):
@@ -453,7 +453,7 @@ def obrasMasAntiguas(listaOrdenada, catalog):
         lt.addLast(masAntiguas, info)
     return masAntiguas 
 
-def obrasMasCost(listaOrdenadaprecios2, catalog, lista):
+def obrasMasCost(listaOrdenadaprecios2, catalog):
     x= lt.subList(listaOrdenadaprecios2, (lt.size(listaOrdenadaprecios2))-4, 5)
     masCost= lt.newList()
     for obra in lt.iterator(x):
