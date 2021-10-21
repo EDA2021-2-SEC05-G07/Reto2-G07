@@ -244,7 +244,6 @@ def enconID(catalog, nombre: str):
 def tecnicasartista(catalog, encontrarid):
     cantidadobras=0
     tecnicas=lt.newList()
-    listastecnicas=lt.newList()
     for obra in lt.iterator(catalog['Artworks']):
         if obra['ConstituentID'] == encontrarid:
             cantidadobras+=1
