@@ -50,10 +50,6 @@ def initDatos():
 def cargarDatos(catalog):
     return controller.cargarDatos(catalog)
 
-def gettopnAntiguas(n:int):
-    
-    return controller.gettopnAntiguas(listaOrdenada, obras, n)
-
 """
 Menu principal
 """
