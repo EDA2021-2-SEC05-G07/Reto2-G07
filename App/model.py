@@ -25,6 +25,7 @@
  """
 
 
+from DISClib.DataStructures.arraylist import newList
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
@@ -209,6 +210,59 @@ def ordenarlista(fechas):
     listaOrdenada=sa.sort(fechas, ordenar)
     return listaOrdenada
 
+#Requerimiento 3
+
+def enconID(catalog, nombre):
+    i=0
+    f=len(catalog['Artists'])
+    f-=1
+    pos=-1
+    id= False
+    while i <= f and id == False:
+        m=(i+f)//2
+        if catalog['Artists'][m]== nombre:
+            pos=m
+            id=True
+        elif catalog['Artists'][m] > nombre:
+            f=m-1
+        else:
+            i=m+1
+    encontrarid= catalog['Artists'][pos]['Constituent ID']
+    return encontrarid
+def tecnicasartista(catalog, encontrarid):
+    cantidadobras=0
+    tecnicas=lt.newList()
+    listastecnicas=lt.newList()
+    for obra in lt.iterator(catalog['Artworks']):
+        if obra['Constituent ID'] == encontrarid:
+            cantidadobras+=1
+            tecnica2= obra['Medium']
+            if tecnica2 in tecnicas:
+                nuevaObra=lt.newList()
+                lt.addLast(nuevaObra,obra['Title'])
+                lt.addLast(nuevaObra,obra['Date'])
+                lt.addLast(nuevaObra,obra['Medium'])
+                lt.addLast(nuevaObra,obra['Dimensions'])
+                lt.addLast(tecnica2,nuevaObra)
+            else:
+                lt.addLast(tecnicas, tecnica2)
+                tecnica2=lt.newList()
+                nuevaObra=lt.newList()
+                lt.addLast(nuevaObra,obra['Title'])
+                lt.addLast(nuevaObra,obra['Date'])
+                lt.addLast(nuevaObra,obra['Medium'])
+                lt.addLast(nuevaObra,obra['Dimensions'])
+                lt.addLast(tecnica2,nuevaObra)
+    mayor=0
+    masgrande=None
+    for tec in tecnicas:
+        tamanio= lt.size(tec)
+        if tamanio > mayor:
+            mayor= tamanio
+            masgrande=tec
+    tecnicas= lt.size(tecnicas)
+    tupla=(cantidadobras, tecnicas, masgrande)
+    return tupla
 
 #Requerimiento 4
 def idArtists(catalog):
@@ -331,7 +385,7 @@ def cantidadObras(catalog):
     return totalObras
 
 def dictCostos(catalog):
-    for obra in catalog['Departamento']:
+    for obra in mp.keySet(catalog['Departamento']):
         altura=obra['Height']
         longitud=obra['Length']
         peso=obra['Weigth']
@@ -485,5 +539,13 @@ def compareCostoObras(cos1, cos2):
         return 1
     else:
         return -1
-    
 
+
+def compareTecnicas(tec1, tec2):
+    cos2= me.getKey(cos2)
+    if (cos1) == (cos2):
+        return 0
+    elif (cos1) > (cos2):
+        return 1
+    else:
+        return -1

@@ -99,7 +99,14 @@ def getordenarObras(obras):
 def getnumPurchase(catalog):
     conteoPu= model.numPurchase(catalog)
     return conteoPu
-    
+
+#Requerimiento 3
+def getenconID(catalog, nombre):
+    encontrarid= model.enconID(catalog, nombre)
+    return encontrarid
+def gettecnicasartista(catalog, encontrarid):
+    tupla=model.tecnicasartista(catalog, encontrarid)
+    return tupla
 # Funciones requerimiento 4
 def getidArtists(catalog):
     id=model.idArtists(catalog)

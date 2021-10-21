@@ -37,12 +37,11 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1 - Cargar información en el catálogo")
-    print("2 - obras en orden cronologico -LABORATORIO-")
-    print("3 - total obras nacionalidad-LABORATORIO-")
-    print("4 - artistas en orden cronologico -REQ 1-")
-    print("5 - obras en orden cronologico -REQ 2-")
-    print("6 - clasificar las obras por la nacionalidad de sus creadores-REQ 4-")
-    print("8 - costo transporte departamento -REQ 5-")
+    print("2 - artistas en orden cronologico -REQ 1-")
+    print("3 - obras en orden cronologico -REQ 2-")
+    print("4 - obras por tecnica -REQ 3-")
+    print("5 - clasificar las obras por la nacionalidad de sus creadores-REQ 4-")
+    print("6 - costo transporte departamento -REQ 5-")
 catalog = None
 
 def initDatos():
@@ -66,21 +65,7 @@ while True:
         catalog= initDatos()
         cargarDatos(catalog)
 
-    #elif int(inputs[0]) == 2:
-       # n= input('Ingrese un numero: ')
-        #medio= input('Ingrese el medio que quiere buscar: ')
-        #print('las n obras más antiguas de' + str(medio))
-        #obras = controller.getorgObrasCro(catalog, medio)
-        #fechas = controller.getlistaFechas(obras)
-        #listaOrdenada = controller. getordenarlista(fechas)
-        #nObras = controller.gettopnAntiguas(listaOrdenada, obras, n)
-
-    #elif int(inputs[0]) == 3:
-      #  nacionalidad = input('Ingrese la nacionalidad que quiere buscar: ')
-     #   cant = controller.getSizeNatio(catalog, nacionalidad)
-       # print('El número total de obras de la nacionalidad'+ str(nacionalidad) + 'es: ' + str(cant))
-    
-    elif int(inputs[0]) == 4:
+    elif int(inputs[0]) == 2:
         inicial=input('Ingrese la fecha inicial: ')
         final=input('Ingrese la fecha final: ')
         totalArtist=controller.getorgartistasCro(catalog, inicial, final)
@@ -88,7 +73,7 @@ while True:
         print('Primeros 3 artistas del rango cronologico: ' )
         print('Ultimos 3 artistas del rango cronológico: ')
         
-    elif int(inputs[0]) == 5:
+    elif int(inputs[0]) == 3:
         inicial=input('Ingrese la fecha inicial: ')
         final=input('Ingrese la fecha final: ')
         totalObras=controller.getorgObrasCro(catalog, inicial, final)
@@ -97,8 +82,21 @@ while True:
         #ultimos3=
         #print(primeros3)
         #print(ultimos3)
-
-    elif int(inputs[0]) == 6:
+    elif int(inputs[0]) == 4:
+        nombre=input('Ingrese el nombre del artista: ')
+        encontrarid= controller.getenconID(catalog, nombre)
+        tupla=controller.gettecnicasartista(catalog, encontrarid)
+        print('El total de obras es: '+str(tupla[0]))
+        print('El total de tecnicas es: '+str(tupla[1]))
+        masusada= tupla[2]
+        primeros3= lt.subList(masusada, 1, 3)
+        ultimos3=lt.subList(masusada, lt.size(masusada)-2, 3)
+        for obra in primeros3:
+            tecnica= obra['Medium']
+        print('La tecnica mas usada es: '+str(tecnica))
+        print(primeros3)
+        print(ultimos3)
+    elif int(inputs[0]) == 5:
         id= controller.getidArtists
         cargarNacio = controller.getidyNacio(catalog, id)
         lst_top10_final=controller.getlista_nacionalidades(catalog)
@@ -107,7 +105,7 @@ while True:
         info_obras= controller.getnacioMasObras(top10, catalog)
         print('Información de las obras de la nacionalidad con el mayor numero de obras') + info_obras
 
-    elif int(inputs[0]) == 8:
+    elif int(inputs[0]) == 6:
         departamento = input('Departamento del museo: ')
         total_obras= controller.getcantidadObras(catalog)
         print('Total de obras para transportar: ' + str(total_obras))
