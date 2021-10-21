@@ -25,7 +25,7 @@
  """
 
 
-from DISClib.DataStructures.arraylist import newList
+from DISClib.DataStructures.arraylist import addLast, newList
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
@@ -80,16 +80,16 @@ def iniciarDatos():
 
 def addArtist(catalog, artist):
     lt.addLast(catalog['Artists'], artist)
-    fechabegin= artist['BeginDate']
-    esta = mp.contains(catalog['RangoFechasArtistas'], fechabegin)
+    nombre = artist['DisplayName']
+    esta = mp.contains(catalog['RangoFechasArtistas'], nombre)
     if not esta:
         listaArtista = lt.newList()
         lt.addLast(listaArtista, artist)
-        mp.put(catalog['RangoFechasArtistas'], fechabegin, listaArtista)
+        mp.put(catalog['RangoFechasArtistas'], nombre, listaArtista)
     else:
-        listaArtista = mp.get(catalog['RangoFechasArtistas'], fechabegin)['value']
+        listaArtista = mp.get(catalog['RangoFechasArtistas'], nombre)['value']
         lt.addLast(listaArtista, artist)
-        mp.put(catalog['RangoFechasArtistas'], fechabegin, listaArtista)
+        mp.put(catalog['RangoFechasArtistas'], nombre, listaArtista)
 
 def cargarmapaMedios(catalog):
     for obra in lt.iterator(catalog['Artworks']):
@@ -134,33 +134,34 @@ def ordenar(o1,o2):
 
 def orgartistasCro(catalog, inicial, final):
     listaArtistas = lt.newList()
-    i = True
-    while inicial <= final and i== True:
-        esta = mp.contains(catalog['RangoFechasArtistas'], inicial)
-        if esta: 
-            lista = mp.get(catalog['RangoFechasArtistas'], inicial)['value']
-            for element in lt.iterator(lista):
-                lt.addLast(listaArtistas, element)
-            for artista in listaArtistas:
-                listaInfo= lt.newList()
-                lt.addLast(listaInfo, artista['DisplayName'])
-                lt.addLast(listaInfo, artista['BeginDate'])
-                lt.addLast(listaInfo, artista['EndDate'])
-                lt.addLast(listaInfo, artista['Nationality'])
-                lt.addLast(listaInfo, artista['Gender'])
-                i = False
-    return listaInfo
-def listafechas(listaInfo):
-    for artista in listaInfo:
-        listaFechas= lt.newList()
+    valores = mp.valueSet(catalog['RangoFechasArtistas'])
+    for artista in valores:
+        if artista['BeginDate']>=inicial and artista['BeginDate']<= final:
+            listaInfo= lt.newList()
+            lt.addLast(listaInfo, artista['DisplayName'])
+            lt.addLast(listaInfo, artista['BeginDate'])
+            lt.addLast(listaInfo, artista['EndDate'])
+            lt.addLast(listaInfo, artista['Nationality'])
+            lt.addLast(listaInfo, artista['Gender'])
+            lt.addLast(listaArtistas, listaInfo)       
+    total = lt.size(listaArtistas)   
+    return (total, listaArtistas)
+
+def listafechas(listaArtistas):
+    listaFechas= lt.newList()
+    for artista in listaArtistas:
         lt.addLast(listaFechas, artista['BeginDate'])
     return listaFechas
 
 def ordenarlista(listafechas):
     listaOrdenada=sa.sort(listafechas, compareVariables)
     return listaOrdenada
-def ordenarArtistas(listainfo):
-    ordenada= ordenarlista(listainfo)
+def ordenarArtistas(listaOrdenada, listaArtistas):
+    ordenada = lt.newList
+    for fecha in listaOrdenada:
+        for artista in listaArtistas:
+            if fecha == artista['BeginDate']:
+                lt.addLast(ordenada, artista)
     return ordenada
 def primeros3(ordenada):
     primeros=lt.subList(ordenada, 1, 3)

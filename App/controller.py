@@ -84,8 +84,23 @@ def getSizeNatio(catalog, nacionalidad):
 
 #Requerimiento 1
 def getorgartistasCro(catalog, inicial, final):
-    listaInfo= model.orgartistasCro(catalog, inicial, final)
-    return listaInfo
+    tupla= model.orgartistasCro(catalog, inicial, final)
+    return tupla
+def getListafechas(listaArtistas):
+    listafechas = model.listafechas(listaArtistas)
+    return listafechas
+def getordenarlista(listafechas):
+    listaOrdenada = model.ordenarlista(listafechas)
+    return listaOrdenada
+def getordenarartistas(listaOrdenada, listaArtistas):
+    ordenada = model.ordenarArtistas(listaOrdenada, listaArtistas)
+    return ordenada
+def getprimeros3(ordenada):
+    primeros = model.primeros3(ordenada)
+    return primeros
+def getultimos3(ordenada):
+    ultimos = model.ultimos3(ordenada)
+    return ultimos
 #Requerimiento 2
 def getorgObrasCro(catalog, inicial, final):
     conteoObras= model.orgObrasCro(catalog, inicial, final)
@@ -112,7 +127,6 @@ def getidArtists(catalog):
     id=model.idArtists(catalog)
     return id
 def getidyNacio(catalog, id):
-    "que retorna ?"
     return model.idyNacio(catalog, id)
 def getcontNacio(catalog):
     conteoNa = model.contNacio(catalog)
