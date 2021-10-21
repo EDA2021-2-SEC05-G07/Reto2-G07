@@ -65,9 +65,16 @@ while True:
         inicial=input('Ingrese la fecha inicial: ')
         final=input('Ingrese la fecha final: ')
         totalArtist=controller.getorgartistasCro(catalog, inicial, final)
-        print('El número total de artistas es: ' + str(lt.size(totalArtist)))
-        print('Primeros 3 artistas del rango cronologico: ' )
-        print('Ultimos 3 artistas del rango cronológico: ')
+        resultado = totalArtist[0]
+        print('El número total de artistas es: ' + str(resultado))
+        listaArtistas= totalArtist[1]
+        listafechas = controller.getListafechas(listaArtistas)
+        listaOrdenada= controller.getordenarlista(listafechas)
+        ordenada = controller.getordenarartistas(listaOrdenada, listaArtistas)
+        primeros3= controller.getprimeros3(ordenada)
+        print('Primeros 3 artistas del rango cronologico: ' +str(primeros3))
+        ultimos3 = controller.getultimos3(ordenada)
+        print('Ultimos 3 artistas del rango cronológico: '+str(ultimos3))
         
     elif int(inputs[0]) == 3:
         inicial=input('Ingrese la fecha inicial: ')
