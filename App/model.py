@@ -237,7 +237,9 @@ def contNacio(catalog):
 def Top10(catalog):
     valoresNacio=lt.newList()
     top10=  lt.newList()
-    for nacio in catalog['Nationality']:
+    indice = mp.keySet(catalog['Nationality'])
+    pareja = mp.get(catalog['Nationality'], indice)
+    for nacio in pareja:
         lt.addLast(valoresNacio, nacio)
     valoresOrdenados= sa.sort(valoresNacio)
     valorestop10= lt.subList(valoresOrdenados, 1, 10)
@@ -272,8 +274,9 @@ def lista_nacionalidades(catalog):
     mayor=0
     top10= 0
     lst_nacio_ord = lt.newList
-    natio= catalog['Nationality']
-    for obra in natio:
+    natio= mp.keySet(catalog['Nationality'])
+    parejaNatio= mp.get(catalog['Nationality'], natio)
+    for obra in parejaNatio:
         size= lt.size(obra)
         if size > mayor:
             mayor= size
@@ -292,7 +295,9 @@ def obrasDepartamento(departamento, catalog):
             mp.put(catalog['Departamento'],obra['Title'], obra)
 def listafechas(catalog):
     listafechas= lt.newList('SINGLE_LINKED')
-    for obra in catalog['Departamento']:
+    dep= mp.keySet(catalog['Departamento'])
+    parejaDep = mp.get(catalog['Departamento'], dep)
+    for obra in parejaDep:
         f= obra['Date']
         t= obra['Title']
         lt.addLast(listafechas, {'fecha': f, 'titulo': t})
@@ -307,7 +312,9 @@ def ordenarlista(listafechas):
 
 def listaprecios(catalog):
     listaprecios= lt.newList('SINGLE_LINKED')
-    for llave in catalog['CostoObras']:
+    obra= mp.keySet(catalog['CostoObras'])
+    parejaObra = mp.get(catalog['Departamento'], obra)
+    for llave in parejaObra:
         costo= catalog['CostoObras'][llave]
         lt.addLast(listafechas, {'costo': costo, 'titulo': llave})
     return listaprecios
@@ -321,7 +328,9 @@ def ordenarlista2(listaprecios):
 
 def pesototal(catalog):
     peso=0
-    for obra in catalog['Departamento']:
+    dep= mp.keySet(catalog['Departamento'])
+    parejaDep = mp.get(catalog['Departamento'], dep)
+    for obra in parejaDep:
         pesoObra= int(obra['Weight'])
         peso+= pesoObra
     return peso
@@ -331,7 +340,9 @@ def cantidadObras(catalog):
     return totalObras
 
 def dictCostos(catalog):
-    for obra in catalog['Departamento']:
+    dep= mp.keySet(catalog['Departamento'])
+    parejaDep = mp.get(catalog['Departamento'], dep)
+    for obra in parejaDep:
         altura=obra['Height']
         longitud=obra['Length']
         peso=obra['Weigth']
