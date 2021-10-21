@@ -55,27 +55,27 @@ def iniciarDatos():
     catalog['Medium']=mp.newMap(1153,
                                  maptype='PROBING',
                                  loadfactor=0.6,
-                                 comparefunction=compareMedium)
+                                 comparefunction=compareVariables)
     catalog['Nationality']=mp.newMap(1153,
                                     maptype='PROBING',
                                     loadfactor=0.6,
-                                    comparefunction=compareNationality)
+                                    comparefunction=compareVariables)
     catalog['RangoFechasArtistas']=mp.newMap(1153,
                                             maptype='PROBING',
                                             loadfactor=0.6,
-                                            comparefunction=compareBeginDate)
+                                            comparefunction=compareVariables)
     catalog['RangoFechasObras']=mp.newMap(1153,
                                         maptype='PROBING',
                                         loadfactor=0.6,
-                                        comparefunction=compareBeginDateObras)
+                                        comparefunction=compareVariables)
     catalog['Departamento']=mp.newMap(1153,
                                     maptype='PROBING',
                                     loadfactor=0.6,
-                                    comparefunction=compareDepartamento)
+                                    comparefunction=compareVariables)
     catalog['CostoObras']=mp.newMap(1153,
                                     maptype='PROBING',
                                     loadfactor=0.6,
-                                    comparefunction=compareCostoObras)
+                                    comparefunction=compareVariables)
     return catalog
 
 def addArtist(catalog, artist):
@@ -155,11 +155,9 @@ def listafechas(listaInfo):
         listaFechas= lt.newList()
         lt.addLast(listaFechas, artista['BeginDate'])
     return listaFechas
-    
-def ordenar(o1,o2):
-    return o1['fecha']<o2['fecha']
+
 def ordenarlista(listafechas):
-    listaOrdenada=sa.sort(listafechas, ordenar)
+    listaOrdenada=sa.sort(listafechas, compareVariables)
     return listaOrdenada
 def ordenarArtistas(listainfo):
     ordenada= ordenarlista(listainfo)
@@ -228,7 +226,7 @@ def listaFechas(obras):
     return fechas 
 
 def ordenarlista(fechas):
-    listaOrdenada=sa.sort(fechas, ordenar)
+    listaOrdenada=sa.sort(fechas, compareVariables)
     return listaOrdenada
 
 #Requerimiento 3
@@ -378,11 +376,8 @@ def listafechas(catalog):
         lt.addLast(listafechas, {'fecha': f, 'titulo': t})
     return listafechas
 
-def ordenar(o1,o2):
-    return o1['fecha']<o2['fecha']
-
 def ordenarlista(listafechas):
-    listaOrdenada=sa.sort(listafechas, ordenar)
+    listaOrdenada=sa.sort(listafechas, compareVariables)
     return listaOrdenada
 
 def listaprecios(catalog):
@@ -394,11 +389,8 @@ def listaprecios(catalog):
         lt.addLast(listafechas, {'costo': costo, 'titulo': llave})
     return listaprecios
 
-def ordenar2(o1,o2):
-    return o1['costo']<o2['costo']
-
 def ordenarlista2(listaprecios):
-    listaOrdenadaprecios2=sa.sort(listaprecios, ordenar)
+    listaOrdenadaprecios2=sa.sort(listaprecios, compareVariables)
     return listaOrdenadaprecios2
 
 def pesototal(catalog):
@@ -491,94 +483,14 @@ def obrasMasCost(listaOrdenadaprecios2, catalog, lista):
         lt.addLast(info, costo)
         lt.addLast(masCost, info)
     return masCost
-    ####################
-
-def topnAntiguas(listaOrdenada, obras, n:int):
-    titulosOrdenados= lt.newList()
-    for fecha in listaOrdenada:
-        for obra in obras:
-            if fecha == obra['Date']:
-                lt.addLast(titulosOrdenados, obra['Title'])
-    posicion= n-1
-    topn= lt.subList(titulosOrdenados,lt.size(titulosOrdenados)-posicion,n)
-    return topn
-
-# Funciones para agregar informacion al catalogo
-
-# Funciones para creacion de datos
-
-# Funciones de consulta
-
-# Funciones utilizadas para comparar elementos dentro de una lista
-
-# Funciones de ordenamiento
 
 # Funciones de comparación
 
-def compareMedium(medium1, medium2):
-    medium2= me.getKey(medium2)
-    if (medium1) == (medium2):
+def compareVariables(var1, pareja2):
+    pareja2= me.getKey(pareja2)
+    if (var1) == (pareja2):
         return 0
-    elif (medium1) > (medium2):
-        return 1
-    else:
-        return -1
-def compareNationality(natio1, natio2):
-    natio2= me.getKey(natio2)
-    if (natio1) == (natio2):
-        return 0
-    elif (natio1) > (natio2):
-        return 1
-    else:
-        return -1
-def compareBeginDate(date1, date2):
-    date2= me.getKey(date2)
-    if (date1) == (date2):
-        return 0
-    elif (date1) > (date2):
-        return 1
-    else:
-        return -1
-def compareEndDate(date1, date2):
-    date2= me.getKey(date2)
-    if (date1) == (date2):
-        return 0
-    elif (date1) > (date2):
-        return 1
-    else:
-        return -1
-def compareBeginDateObras(date1, date2):
-    date2= me.getKey(date2)
-    if (date1) == (date2):
-        return 0
-    elif (date1) > (date2):
-        return 1
-    else:
-        return -1
-def compareDepartamento(dep1, dep2):
-    dep2= me.getKey(dep2)
-    if (dep1) == (dep2):
-        return 0
-    elif (dep1) > (dep2):
-        return 1
-    else:
-        return -1
-def compareCostoObras(cos1, cos2):
-    cos2= me.getKey(cos2)
-    if (cos1) == (cos2):
-        return 0
-    elif (cos1) > (cos2):
-        return 1
-    else:
-        return -1
-
-
-
-def compareTecnicas(tec1, tec2):
-    tec2= me.getKey(tec2)
-    if (tec1) == (tec2):
-        return 0
-    elif (tec1) > (tec2):
+    elif (var1) > (pareja2):
         return 1
     else:
         return -1
