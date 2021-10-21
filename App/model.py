@@ -119,7 +119,17 @@ def cargarNacionalidades(catalog):
 
 def addArtwork(catalog, artwork):
     lt.addLast(catalog['Artworks'],artwork)
-    
+    obra = artwork['Title']
+    esta = mp.contains(catalog['RangoFechasObras'], obra)
+    if not esta:
+        listaObra = lt.newList()
+        lt.addLast(listaObra, obra)
+        mp.put(catalog['RangoFechasObras'], obra, listaObra)
+    else:
+        listaObra = mp.get(catalog['RangoFechasObras'], obra)['value']
+        lt.addLast(listaObra, obra)
+        mp.put(catalog['RangoFechasObras'], obra, listaObra)
+
 def sizeNatio(catalog, nacionalidad):
     contador = 0
     for obra in lt.iterator(catalog['Artworks']):
@@ -179,36 +189,34 @@ def compararIDayo(catalog, id):
     return nomArtista
 
 def orgObrasCro(catalog, inicial, final):
-    for obra in lt.iterator(catalog['Artworks']):        
+    listaObras= lt.newList()
+    valores = mp.valueSet(catalog['RangoFechasObras'])
+    for obra in valores:        
         if obra['DateAcquired']>= inicial and obra['DateAcquired']<= final:
             informacion= lt.newList()
             lt.addLast(informacion, obra['Title'])
-            lt.addLast(informacion, obra[compararIDayo(obra['ConstituentID'])])
+            lt.addLast(informacion, obra[compararIDayo(catalog['Artist'],obra['ConstituentID'])])
             lt.addLast(informacion, obra['Date'])
             lt.addLast(informacion, obra['DateAcquired'])
             lt.addLast(informacion, obra['Medium'])
             lt.addLast(informacion, obra['Dimensions'])
-            mp.put(catalog['RangoFechasObras'],obra['Title'], informacion)
-    conteoObras=lt.size(catalog['RangoFechasObras'])
-    return conteoObras
+            lt.addLast(listaObras, informacion)
+    conteoObras=lt.size(listaObras)
+    return (conteoObras, listaObras)
 
-def obras(catalog, medio):
-    obras =lt.newList()
-    for obra in lt.iterator(catalog['Artworks']):
-        if medio == obra['Medium']:
-            informacion= lt.newList()
-            nom=compararIDayo(catalog, obra['ConstituentID'])
-            lt.addLast(informacion, obra['Title'])
-            lt.addLast(informacion, nom)
-            lt.addLast(informacion, obra['Date'])
-            lt.addLast(informacion, obra['Medium'])
-            lt.addLast(informacion, obra['Dimensions'])
-            lt.addLast(obras,informacion)
-    return obras
+def listafechasObras(listaObras):
+    listafechas = lt.newList()
+    for obra in listaObras:
+        lt.addLast(listafechas, obra['DateAcquired'])
+    return listafechas
 
-def ordenarObras(obras):
-    ordenada1= ordenarlista(obras)
-    return ordenada1
+def ordenarObras(listaOrdenada, listaObras):
+    ordenada = lt.newList
+    for fecha in listaOrdenada:
+        for obra in listaObras:
+            if fecha == obra['DateAcquired']:
+                lt.addLast(ordenada, obra)
+    return ordenada
 
 def numPurchase(catalog):
     conteoPu = 0
@@ -216,21 +224,6 @@ def numPurchase(catalog):
         if obra['CreditLine'] == 'Purchase':
             conteoPu += 1
     return conteoPu
-
-def ordenarArtistas(artistas):
-    ordenada= ordenarlista(artistas)
-    return ordenada
-
-def listaFechas(obras):
-    fechas= lt.newList()
-    for obra in obras:
-        x= obra['Date']
-        lt.addLast(fechas, x)
-    return fechas 
-
-def ordenarlista(fechas):
-    listaOrdenada=sa.sort(fechas, compareVariables)
-    return listaOrdenada
 
 #Requerimiento 3
 

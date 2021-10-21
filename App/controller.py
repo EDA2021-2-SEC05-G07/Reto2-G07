@@ -20,6 +20,7 @@
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
+from App.model import listafechas
 import config as cf
 import model
 import csv
@@ -102,17 +103,15 @@ def getultimos3(ordenada):
     ultimos = model.ultimos3(ordenada)
     return ultimos
 #Requerimiento 2
+
 def getorgObrasCro(catalog, inicial, final):
-    conteoObras= model.orgObrasCro(catalog, inicial, final)
-    return conteoObras
-def getobras(catalog, medio):
-    obras=model.obras(catalog, medio)
-    return obras
-def getcompararIDayo(catalog, id):
-    nomArtista= model.compararIDayo(catalog, id)
-    return nomArtista
-def getordenarObras(obras):
-    ordenada= model.ordenarObras(obras)
+    tupla= model.orgObrasCro(catalog, inicial, final)
+    return tupla
+def getlistafechasObras(listaObras):
+    listafechas = model.listafechasObras(listaObras)
+    return listafechas
+def getordenarObras(listaOrdenada, listaObras):
+    ordenada= model.ordenarObras(listaOrdenada, listaObras)
     return ordenada
 def getnumPurchase(catalog):
     conteoPu= model.numPurchase(catalog)

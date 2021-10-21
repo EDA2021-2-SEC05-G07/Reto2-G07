@@ -79,14 +79,20 @@ while True:
     elif int(inputs[0]) == 3:
         inicial=input('Ingrese la fecha inicial: ')
         final=input('Ingrese la fecha final: ')
-        totalObras=controller.getorgObrasCro(catalog, inicial, final)
-        print('El número total de artistas es: ' + str(totalObras))
-        medio=input('Ingrese la fecha inicial: ')
-        obras= controller.getobras(catalog, medio)
+        tupla=controller.getorgObrasCro(catalog, inicial, final)
+        totalObras= tupla[0]
+        print('Número total de obras en el rango cronológico: ' + str(totalObras))
+        conteoPu = controller.getnumPurchase(catalog)
+        print('Número total de obras adquiridas por compra “ purchase"' + str(conteoPu))
+        listaObras= tupla[1]
+        listafechas = controller.getlistafechasObras(listaObras)
+        listaOrdenada = controller.getordenarlista(listafechas)
+        ordenada = controller.getordenarObras(listaOrdenada,listaObras)
         primeros3= controller.getprimeros3(ordenada)
         print('Primeros 3 artistas del rango cronologico: ' +str(primeros3))
         ultimos3 = controller.getultimos3(ordenada)
         print('Ultimos 3 artistas del rango cronológico: '+str(ultimos3))
+    
     elif int(inputs[0]) == 4:
         nombre=input('Ingrese el nombre del artista: ')
         encontrarid= controller.getenconID(catalog, nombre)
