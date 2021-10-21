@@ -231,29 +231,19 @@ def ordenarlista(fechas):
 
 #Requerimiento 3
 
-def enconID(catalog, nombre):
-    i=0
-    f=len(catalog['Artists'])
-    f-=1
-    pos=-1
-    id= False
-    while i <= f and id == False:
-        m=(i+f)//2
-        if catalog['Artists'][m]== nombre:
-            pos=m
-            id=True
-        elif catalog['Artists'][m] > nombre:
-            f=m-1
-        else:
-            i=m+1
-    encontrarid= catalog['Artists'][pos]['Constituent ID']
+def enconID(catalog, nombre: str):
+    encontrarid=None
+    for artista in lt.iterator(catalog['Artists']):
+        if artista['DisplayName']== nombre:
+            encontrarid= artista['ConstituentID']
+            break
     return encontrarid
 def tecnicasartista(catalog, encontrarid):
     cantidadobras=0
     tecnicas=lt.newList()
     listastecnicas=lt.newList()
     for obra in lt.iterator(catalog['Artworks']):
-        if obra['Constituent ID'] == encontrarid:
+        if obra['ConstituentID'] == encontrarid:
             cantidadobras+=1
             tecnica2= obra['Medium']
             if tecnica2 in tecnicas:
