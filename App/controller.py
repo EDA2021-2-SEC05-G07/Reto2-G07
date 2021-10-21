@@ -105,6 +105,9 @@ def getultimos3(ordenada):
 def getorgObrasCro(catalog, inicial, final):
     conteoObras= model.orgObrasCro(catalog, inicial, final)
     return conteoObras
+def getobras(catalog, medio):
+    obras=model.obras(catalog, medio)
+    return obras
 def getcompararIDayo(catalog, id):
     nomArtista= model.compararIDayo(catalog, id)
     return nomArtista

@@ -170,15 +170,13 @@ def ultimos3(ordenada):
     ultimos=lt.subList(ordenada, (lt.size(ordenada))-2, 3)
     return ultimos
 
-#falta ordenar la lista para poder sacar los primeros y ultimos 3
-
 #Requerimiento 2
 def compararIDayo(catalog, id):
     #en id entraria el constituent ID del artworks
     for artist in lt.iterator(catalog['Artist']):
         if id == artist['ConstituentID']:
             nomArtista = artist['DisplayName']
-            return nomArtista
+    return nomArtista
 
 def orgObrasCro(catalog, inicial, final):
     for obra in lt.iterator(catalog['Artworks']):        
@@ -194,30 +192,34 @@ def orgObrasCro(catalog, inicial, final):
     conteoObras=lt.size(catalog['RangoFechasObras'])
     return conteoObras
 
+def obras(catalog, medio):
+    obras =lt.newList()
+    for obra in lt.iterator(catalog['Artworks']):
+        if medio == obra['Medium']:
+            informacion= lt.newList()
+            nom=compararIDayo(catalog, obra['ConstituentID'])
+            lt.addLast(informacion, obra['Title'])
+            lt.addLast(informacion, nom)
+            lt.addLast(informacion, obra['Date'])
+            lt.addLast(informacion, obra['Medium'])
+            lt.addLast(informacion, obra['Dimensions'])
+            lt.addLast(obras,informacion)
+    return obras
+
 def ordenarObras(obras):
-    ordenada= ordenarlista(obras)
-    return ordenada
+    ordenada1= ordenarlista(obras)
+    return ordenada1
 
 def numPurchase(catalog):
     conteoPu = 0
     for obra in lt.iterator(catalog['Artworks']):
         if obra['CreditLine'] == 'Purchase':
             conteoPu += 1
-        return conteoPu
+    return conteoPu
 
 def ordenarArtistas(artistas):
     ordenada= ordenarlista(artistas)
     return ordenada
-
-def orgObrasCro(catalog, medio):
-    obras =lt.newList()
-    for obra in lt.iterator(catalog['Artworks']):
-        if medio == obra['Medium']:
-            informacion= lt.newList()
-            lt.addLast(informacion, obra['Title'])
-            lt.addLast(informacion, obra['Date'])
-            lt.addLast(obras,informacion)
-    return obras
 
 def listaFechas(obras):
     fechas= lt.newList()
