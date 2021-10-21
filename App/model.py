@@ -150,6 +150,27 @@ def orgartistasCro(catalog, inicial, final):
                 lt.addLast(listaInfo, artista['Gender'])
                 i = False
     return listaInfo
+def listafechas(listaInfo):
+    for artista in listaInfo:
+        listaFechas= lt.newList()
+        lt.addLast(listaFechas, artista['BeginDate'])
+    return listaFechas
+    
+def ordenar(o1,o2):
+    return o1['fecha']<o2['fecha']
+def ordenarlista(listafechas):
+    listaOrdenada=sa.sort(listafechas, ordenar)
+    return listaOrdenada
+def ordenarArtistas(listainfo):
+    ordenada= ordenarlista(listainfo)
+    return ordenada
+def primeros3(ordenada):
+    primeros=lt.subList(ordenada, 1, 3)
+    return primeros
+def ultimos3(ordenada):
+    ultimos=lt.subList(ordenada, (lt.size(ordenada))-2, 3)
+    return ultimos
+
 #falta ordenar la lista para poder sacar los primeros y ultimos 3
 
 #Requerimiento 2
@@ -550,6 +571,7 @@ def compareCostoObras(cos1, cos2):
         return 1
     else:
         return -1
+
 
 
 def compareTecnicas(tec1, tec2):
